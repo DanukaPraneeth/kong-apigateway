@@ -1,0 +1,22 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: cors-plugin
+config:
+  credentials: false
+  exposed_headers: null
+  headers:
+  - Content-Type, Accept
+  max_age: 3666
+  methods:
+  - GET
+  - POST
+  origins:
+  - '*'
+  preflight_continue: false
+enabled: true
+run_on: first
+protocols:
+- http
+- https
+plugin: cors

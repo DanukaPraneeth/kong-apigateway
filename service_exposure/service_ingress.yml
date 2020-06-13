@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{unique resource name}}
+  namespace: {{name space of the micro service}}
+  annotations:
+    konghq.com/https-redirect-status-code: '302'
+    konghq.com/methods: 'GET, POST, PATCH, DELETE'
+    konghq.com/plugins: 'oidc-plugin, rl-plugin-1, rl-plugin-2'
+    konghq.com/protocols: https
+    konghq.com/strip-path: 'false'
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /{{context path}}
+        backend:
+          serviceName: {{OpenShift service name}}
+          servicePort: {{OpenShift service port}}

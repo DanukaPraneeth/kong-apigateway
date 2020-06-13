@@ -1,0 +1,9 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: admin-acl
+plugin: acl
+config:
+  whitelist: ['app-admin-group']
+  hide_groups_header: true
+plugin: acl

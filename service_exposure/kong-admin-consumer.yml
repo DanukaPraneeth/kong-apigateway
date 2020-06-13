@@ -1,0 +1,9 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: kong-admin
+    konghq.com/plugins: rl-admin-all-50
+username: kong-test-user
+credentials:
+  - acl-app-admin
+
