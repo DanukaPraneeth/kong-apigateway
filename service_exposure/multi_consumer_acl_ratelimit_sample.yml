@@ -1,0 +1,95 @@
+Trottle plugins
+----------------
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: rl-test-mobile-20
+config:
+  minute: 20
+  policy: local 
+  limit_by: consumer
+plugin: rate-limiting
+
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: rl-test-monitoring-30
+config:
+  minute: 30
+  policy: local 
+  limit_by: consumer
+plugin: rate-limiting
+
+
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: rl-new-monitoring-40
+config:
+  minute: 40
+  policy: local 
+  limit_by: consumer
+plugin: rate-limiting
+
+
+ACL Plugins
+---------------
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: moni-acl
+config:
+  whitelist: ['monitoring-group']
+  hide_groups_header: true
+plugin: acl
+
+
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: mob-acl
+config:
+  whitelist: ['mobile-group']
+  hide_groups_header: true
+plugin: acl
+
+
+Next let's create the secrets that will define the ACL groups.
+--------------------------------------------------------------
+oc create secret generic mobile-acl --from-literal=kongCredType=acl --from-literal=group=mobile-group
+oc create secret generic monitoring-acl --from-literal=kongCredType=acl --from-literal=group=monitoring-group
+
+
+Kong Consumers
+-------------------
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: kong-test-user
+  annotations:
+    konghq.com/plugins: rl-test-mobile-20, rl-test-monitoring-30
+username: kong-test-user
+credentials:
+  - mobile-acl
+  - monitoring-acl
+
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: kong-new-user
+  annotations:
+    konghq.com/plugins: rl-new-monitoring-40
+username: kong-new-user
+credentials:
+  - monitoring-acl
+
+
+Ingress resource for Two APIs
+-------------------------------
+mobile API:
+  annotations:
+    konghq.com/plugins: rl-test-mobile-20
+
+monitoring API:
+  annotations:
+    konghq.com/plugins: rl-test-monitoring-30, rl-new-monitoring-40
