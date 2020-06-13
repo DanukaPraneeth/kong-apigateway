@@ -1,0 +1,15 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: response-ratelimit
+config:
+  block_on_first_violation: false
+  fault_tolerant: true
+  header_name: Data
+  hide_client_headers: false
+  limit_by: ip
+  limits:
+    "external":
+      minute: 10
+  policy: local
+plugin: response-ratelimiting

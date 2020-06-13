@@ -1,0 +1,39 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: 	
+config:
+  whitelist: ['app-admin']
+  hide_groups_header: true
+plugin: acl
+
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: plain-user-acl
+config:
+  whitelist: ['app-user','app-admin']
+  hide_groups_header: true
+plugin: acl
+
+oc create secret generic app-admin-acl --from-literal=kongCredType=acl  --from-literal=group=app-admin
+oc create secret generic app-user-acl --from-literal=kongCredType=acl  --from-literal=group=app-user
+
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: admin
+username: admin
+credentials:
+  - app-admin-jwt
+  - app-admin-acl
+
+
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: plain-user
+username: plain-user
+credentials:
+  - app-user-jwt
+  - app-user-acl

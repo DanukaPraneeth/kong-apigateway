@@ -1,0 +1,30 @@
+oc create secret \
+  generic app-admin-jwt  \
+  --from-literal=kongCredType=jwt  \
+  --from-literal=key="admin-issuer" \
+  --from-literal=algorithm=RS256 \
+  --from-literal=rsa_public_key="-----BEGIN PUBLIC KEY-----
+K9+fdfgdfgfgdfggdfggg4Q7rL15PejvkFEQx7m3TzWmm0sx9xukU8Gc49rYLxKv
+CK5OO5vMnZ2v9yXBQwAp50LFrY28NflkQcJ0GU6WFnySQZErwn0DM0cDWsaRpfkW
+-----END PUBLIC KEY-----"
+
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: admin
+username: admin
+credentials:
+  - app-admin-jwt
+
+
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: app-jwt
+plugin: jwt
+
+
+Mandatory jwt claim: 
+{
+    "iss": "a36c3049b36249a3c9f8891cb127243c"
+}

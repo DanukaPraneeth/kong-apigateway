@@ -1,0 +1,29 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: request-transformer
+config:
+  remove:
+    headers:
+    - x-toremove
+    - x-another-one
+    querystring:
+    - qs-old-name
+    body:
+    - formparam-toremove
+    - formparam-another-one
+  rename:
+    headers:
+    - header-old-name:header-new-name
+    - another-old-name:another-new-name
+    body:
+    - param-old:param-new
+    - param2-old:param2-new
+  add:
+    headers:
+    - x-new-header:value
+    - x-another-header:something
+    body:
+    - new-form-param:some_value
+    - another-form-param:some_value
+plugin: request-transformer

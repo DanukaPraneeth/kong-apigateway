@@ -1,0 +1,16 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: canary-prometheus
+config:
+  duration: null
+  groups: null
+  hash: none
+  percentage: 50
+  start: null
+  steps: 1000
+  upstream_fallback: false
+  upstream_host: 172.22.22.22
+  upstream_port: 9090
+  upstream_uri: /api/v1/labels
+plugin: canary

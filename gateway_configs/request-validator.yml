@@ -1,0 +1,19 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: request-validator
+config:
+  allowed_content_types:
+  - application/json
+  body_schema: '[{"firstName":{"type": "string", "required": false}},{"lastName":{"type": "string", "required": true}}]'
+  parameter_schema: null
+  verbose_response: false
+  version: kong
+enabled: false
+run_on: first
+protocols:
+- grpc
+- grpcs
+- http
+- https
+plugin: request-validator 

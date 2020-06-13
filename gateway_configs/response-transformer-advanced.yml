@@ -1,0 +1,34 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: response-transformer
+config:
+  add:
+    headers:
+    - x-new-header:value
+    if_status: []
+    json:
+    - new-json-key:some_value
+    - another-json-key:some_value
+  append:
+    headers:
+    - x-appending-header:some_appending_value
+    if_status: []
+    json: []
+  remove:
+    headers:
+    - x-toremove
+    json:
+    - json-key-toremove:json-key-toremove
+  replace:
+    headers:
+    - x-existing-header:replace_some_new_value
+    if_status: []
+    json:
+    - source:kong.com
+enabled: true
+run_on: first
+protocols:
+- http
+- https
+plugin: response-transformer-advanced

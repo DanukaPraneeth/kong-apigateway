@@ -1,0 +1,8 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: ip-restrict
+config:
+  whitelist:
+  - 165.22.22.22
+plugin: ip-restriction

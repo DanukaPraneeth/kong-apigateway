@@ -1,0 +1,17 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: key-auth
+  labels:
+    global: "true"
+plugin: key-auth
+
+oc create secret generic sp-apikey --from-literal=kongCredType=key-auth --from-literal=key=2a0dfb1b-8c8b
+
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: test-sp
+username: sp1
+credentials:
+- sp-apikey
