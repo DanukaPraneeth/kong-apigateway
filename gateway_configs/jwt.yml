@@ -8,6 +8,7 @@ K9+fdfgdfgfgdfggdfggg4Q7rL15PejvkFEQx7m3TzWmm0sx9xukU8Gc49rYLxKv
 CK5OO5vMnZ2v9yXBQwAp50LFrY28NflkQcJ0GU6WFnySQZErwn0DM0cDWsaRpfkW
 -----END PUBLIC KEY-----"
 
+---
 apiVersion: configuration.konghq.com/v1
 kind: KongConsumer
 metadata:
@@ -16,15 +17,19 @@ username: admin
 credentials:
   - app-admin-jwt
 
-
+---
 apiVersion: configuration.konghq.com/v1
 kind: KongClusterPlugin
 metadata:
   name: app-jwt
 plugin: jwt
 
+---
+oc patch ingress ingress-name -p '{"metadata":{"annotations":{"konghq.com/plugins":"app-jwt"}}}'
 
-Mandatory jwt claim: 
-{
-    "iss": "a36c3049b36249a3c9f8891cb127243c"
-}
+---
+### When generating the JWT, Token's Claims must contain the secret’s key field as a Mandatory parameter(key field in the command used to generating the secrets)
+#   {
+#      "iss": "admin-issuer"
+#   }
+#
