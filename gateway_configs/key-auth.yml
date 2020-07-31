@@ -6,8 +6,11 @@ metadata:
     global: "true"
 plugin: key-auth
 
+---
 oc create secret generic sp-apikey --from-literal=kongCredType=key-auth --from-literal=key=2a0dfb1b-8c8b
 
+
+---
 apiVersion: configuration.konghq.com/v1
 kind: KongConsumer
 metadata:
