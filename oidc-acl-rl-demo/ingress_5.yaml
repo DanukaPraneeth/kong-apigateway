@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-ingress
+  namespace: dp-common-ingress
+  annotations:
+    konghq.com/https-redirect-status-code: '302'
+    konghq.com/methods: GET
+    konghq.com/plugins: 'oidc-plugin, demo-acl, rl-cli1-demo-5, rl-cli2-demo-10'
+    konghq.com/protocols: https
+    konghq.com/strip-path: 'false' 
+spec:
+  ingressClassName: kong
+  rules:
+  - http:
+      paths:
+      - path: /api/demo/service
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: fallback-svc
+            port:
+              number: 80

@@ -1,0 +1,11 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: new-demo-cli
+  namespace: dp-common-ingress
+  annotations:
+    kubernetes.io/ingress.class: kong
+    konghq.com/plugins: 'rl-cli2-demo-10'
+username: new-demo-cli
+credentials:
+  - acl-demo

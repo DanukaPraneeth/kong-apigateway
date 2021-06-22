@@ -1,0 +1,11 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: rl-cli2-demo-10
+  annotations:
+    kubernetes.io/ingress.class: kong
+config:
+  minute: 10
+  policy: local
+  limit_by: consumer
+plugin: rate-limiting
